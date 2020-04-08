@@ -3,50 +3,45 @@ import { Link } from "gatsby"
 
 import { rhythm, scale } from "../utils/typography"
 
+const linkStyling = {
+  boxShadow: `none`,
+  color: `inherit`,
+}
+
+export const RootPathHeader = ({ title }) => {
+  const h1Styling = {
+    ...scale(1.5),
+    marginBottom: rhythm(1.5),
+    marginTop: 0,
+  }
+
+  return (
+    <h1 style={h1Styling}>
+      <Link style={linkStyling} to={"/"}>
+        {title}
+      </Link>
+    </h1>
+  )
+}
+
+export const OtherHeader = ({ title }) => {
+  const h3Styling = {
+    fontFamily: `Montserrat, sans-serif`,
+    marginTop: 0,
+  }
+
+  return (
+    <h3 style={h3Styling}>
+      <Link style={linkStyling} to={`/`}>
+        {title}
+      </Link>
+    </h3>
+  )
+}
+
 const Layout = ({ location, title, children }) => {
   const rootPath = `${__PATH_PREFIX__}/`
-  let header
 
-  if (location.pathname === rootPath) {
-    header = (
-      <h1
-        style={{
-          ...scale(1.5),
-          marginBottom: rhythm(1.5),
-          marginTop: 0,
-        }}
-      >
-        <Link
-          style={{
-            boxShadow: `none`,
-            color: `inherit`,
-          }}
-          to={`/`}
-        >
-          {title}
-        </Link>
-      </h1>
-    )
-  } else {
-    header = (
-      <h3
-        style={{
-          fontFamily: `Montserrat, sans-serif`,
-          marginTop: 0,
-        }}
-      >
-        <Link
-          style={{
-            boxShadow: `none`,
-            color: `inherit`,
-          }}
-          to={`/`}
-        >
-          {title}
-        </Link>
-      </h3>
-    )
-  }
   return (
     <div
       style={{
@@ -56,7 +51,13 @@ const Layout = ({ location, title, children }) => {
         padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
       }}
     >
-      <header>{header}</header>
+      <header>
+        {location.pathname === rootPath ? (
+          <RootPathHeader title={title} />
+        ) : (
+          <OtherHeader title={title} />
+        )}
+      </header>
       <main>{children}</main>
       <footer>
         © {new Date().getFullYear()}, Built with
